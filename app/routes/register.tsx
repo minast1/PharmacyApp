@@ -6,27 +6,33 @@ import Grid from "@mui/material/Grid";
 import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import Paper from "@mui/material/Paper";
-import Layout from "~/src/Layout";
 import { ValidatedForm } from "remix-validated-form";
-import Alert from "@mui/material/Alert";
 import Link from "@mui/material/Link";
 import { useLoaderData } from "@remix-run/react";
 import { registerValidatior } from "~/lib/validatorSchema";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import { FormInputText } from "~/components/FormInputText";
-import FormHelperText from "@mui/material/FormHelperText";
 import SubmitButton from "~/components/SubmitButton";
-import type { ActionFunction, LoaderFunction } from "@remix-run/node";
+import {
+  type ActionFunction,
+  type LoaderFunction,
+  redirect,
+} from "@remix-run/node";
 import { json } from "@remix-run/node";
 import { authenticator } from "~/lib/auth.server";
 import { commitSession, getSession } from "~/lib/session.server";
+import { FormInputDropdown } from "~/components/FormInputDropdown";
 
 export default function Register() {
-  const { error } = useLoaderData();
+  const data = useLoaderData();
 
   //const isSubmitting = useIsSubmitting("signUp");
+  const roles = [
+    { label: "Admin", value: "ADMIN" },
+    { label: "Attendant", value: "ATTENDANT" },
+  ];
   return (
-    <Container component="main" maxWidth="xs" sx={{ mt: 8 }}>
+    <Container component="main" maxWidth="xs" sx={{ mt: 6 }}>
       <CssBaseline />
       <Paper
         sx={{
@@ -47,13 +53,21 @@ export default function Register() {
         <Typography component="h1" variant="h5" sx={{ fontWeight: "bold" }}>
           Sign up
         </Typography>
-        <Typography variant="caption" color="darkgray">
-          Welome! Please fill in the required details to register
-        </Typography>
+        {data?.error ? (
+          <Typography variant="body2" sx={{ fontWeight: "bold" }} color="error">
+            {data?.error}
+          </Typography>
+        ) : (
+          <Typography variant="caption" color="darkgray">
+            Welome! Please fill in the required details to register
+          </Typography>
+        )}
+
         <Box
           component={ValidatedForm}
           validator={registerValidatior}
-          id="signIn"
+          defaultValues={{ role: "ATTENDANT" }}
+          id="register"
           method="post"
           sx={{ mt: 1 }}
         >
@@ -65,6 +79,9 @@ export default function Register() {
               <FormInputText name="email" label="Email Address" />
             </Grid>
             <Grid item xs={12}>
+              <FormInputText name="mobile" label="Phone Number" />
+            </Grid>
+            <Grid item xs={12}>
               <FormInputText name="password" label="Password" type="password" />
             </Grid>
             <Grid item xs={12}>
@@ -72,6 +89,14 @@ export default function Register() {
                 name="confirm"
                 label="Password Confirmation"
                 type="password"
+              />
+            </Grid>
+            <Grid item xs={12}>
+              <FormInputDropdown
+                name="role"
+                label="Select Role"
+                sx={{ width: "60%" }}
+                options={roles}
               />
             </Grid>
           </Grid>
@@ -94,10 +119,22 @@ export default function Register() {
 }
 
 export const action: ActionFunction = async ({ request, context }) => {
-  await authenticator.authenticate("user", request, {
-    successRedirect: "/dashboard/",
+  let user = await authenticator.authenticate("user", request, {
+    //successRedirect: "/dashboard/",
     failureRedirect: "/register",
   });
+  // manually get the session
+  let session = await getSession(request.headers.get("cookie"));
+  // and store the user data
+  session.set(authenticator.sessionKey, user);
+
+  // commit the session
+  let headers = new Headers({ "Set-Cookie": await commitSession(session) });
+
+  // and do your validation to know where to redirect the user
+  return user.role === "ATTENDANT"
+    ? redirect("/dashboard", { headers })
+    : redirect("/admindash", { headers });
 };
 
 export let loader: LoaderFunction = async ({ request }) => {

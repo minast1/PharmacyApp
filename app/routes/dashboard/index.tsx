@@ -18,7 +18,7 @@ const IndexPage = () => {
     <>
       <Card sx={{ mb: 2, mt: 2, backgroundColor: "white" }} elevation={1}>
         <Box display="flex" alignItems="center" ml={2} mt={2}>
-          <Typography variant="h6">Where do You Want to go...?</Typography>
+          <Typography variant="h6">I am the attendant index page </Typography>
           <Box flexGrow={1} />
         </Box>
 

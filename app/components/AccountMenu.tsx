@@ -87,7 +87,7 @@ export default function AccountMenu() {
         <MenuItem
           onClick={() =>
             fetcher.submit(
-              { button: "student_signout" },
+              { button: "signout" },
               { method: "post", action: `/dashboard` }
             )
           }

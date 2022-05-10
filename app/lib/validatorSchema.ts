@@ -9,17 +9,20 @@ export const loginValidator = withZod(
   })
 )
 
+const roles= ["ADMIN", "ATTENDANT"] as const; 
 export const registerValidatior = withZod(
   z.object({
     name: z.string().nonempty("* This field is required"),
     email: z.string().nonempty("* This field is required").email({ message: "Please enter a valid email address" }),
     password: z.string().nonempty(" * This field is required"),
     confirm: z.string().nonempty("Please confirm the password"),
+    role: z.enum(roles),
      mobile: z.string().nonempty("* This field is required")
   }).refine((data) => data.password === data.confirm, {
     message: "Passwords don't match", 
     path: ["confirm"]
   })
+  
 )
 
 export const profileValidator = withZod(

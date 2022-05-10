@@ -17,18 +17,7 @@ const DashboardLayout = () => {
 export default DashboardLayout;
 
 export const action: ActionFunction = async ({ request }) => {
-  const formData = await request.formData();
-  const button = formData.get("button");
-  switch (button) {
-    case "signout":
-      return await authenticator.logout(request, { redirectTo: "/" });
-
-    default:
-      return null;
-  }
-
-  //return null;
-  //;
+  return await authenticator.logout(request, { redirectTo: "/" });
 };
 
 export const loader: LoaderFunction = async ({ request }) => {

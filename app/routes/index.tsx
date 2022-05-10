@@ -12,15 +12,16 @@ import { ValidatedForm } from "remix-validated-form";
 import { FormInputText } from "~/components/FormInputText";
 import { loginValidator } from "~/lib/validatorSchema";
 import SubmitButton from "~/components/SubmitButton";
-//import { useLoaderData } from "@remix-run/react";
+import { useLoaderData } from "@remix-run/react";
 import Link from "@mui/material/Link";
 import type { LoaderFunction, ActionFunction } from "@remix-run/node";
-//import { json } from "@remix-run/node";
+import { redirect, json } from "@remix-run/node";
 import { authenticator } from "~/lib/auth.server";
-//import { commitSession, getSession } from "~/lib/session.server";
+import { commitSession, getSession } from "~/lib/session.server";
 
+//type dataType = { error: string };
 export default function Login() {
-  //const { error } = useLoaderData();
+  const data = useLoaderData();
   return (
     <Container component="main" maxWidth="xs" sx={{ mt: 15 }}>
       <CssBaseline />
@@ -43,9 +44,16 @@ export default function Login() {
         <Typography component="h1" variant="h5" sx={{ fontWeight: "bold" }}>
           Sign in
         </Typography>
-        <Typography variant="caption" color="gray" gutterBottom={true}>
-          Welome back! Please login to continue
-        </Typography>
+        {data?.error ? (
+          <Typography variant="body2" sx={{ fontWeight: "bold" }} color="error">
+            {data.error.message}
+          </Typography>
+        ) : (
+          <Typography variant="caption" color="gray" gutterBottom={true}>
+            Welome back! Please login to continue
+          </Typography>
+        )}
+
         <Box
           component={ValidatedForm}
           validator={loginValidator}
@@ -54,7 +62,7 @@ export default function Login() {
           sx={{ mt: 1 }}
         >
           <FormInputText name="email" label="Email" sx={{ mb: 3 }} />
-          {/*error && <Alert severity="error">{error.message}</Alert>*/}
+
           <FormInputText name="password" type="password" label="Password" />
           <SubmitButton formId="signIn" title="SignIn" />
 
@@ -77,17 +85,27 @@ export default function Login() {
 }
 
 export const action: ActionFunction = async ({ request, context }) => {
-  return await authenticator.authenticate("user", request, {
-    successRedirect: "/dashboard/",
+  let user = await authenticator.authenticate("user", request, {
+    //successRedirect: "/dashboard/",
     failureRedirect: "/",
   });
+  // manually get the session
+  let session = await getSession(request.headers.get("cookie"));
+  // and store the user data
+  session.set(authenticator.sessionKey, user);
 
-  //return student
+  // commit the session
+  let headers = new Headers({ "Set-Cookie": await commitSession(session) });
+
+  // and do your validation to know where to redirect the user
+  return user.role === "ATTENDANT"
+    ? redirect("/dashboard", { headers })
+    : redirect("/admindash", { headers });
 };
 
 // in the loader of the login route
 export let loader: LoaderFunction = async ({ request }) => {
-  /*  await authenticator.isAuthenticated(request, {
+  await authenticator.isAuthenticated(request, {
     successRedirect: "/dashboard",
   });
 
@@ -101,6 +119,5 @@ export let loader: LoaderFunction = async ({ request }) => {
         "Set-Cookie": await commitSession(session),
       },
     }
-  );*/
-  return null;
+  );
 };
