@@ -21,7 +21,7 @@ export const loginUser = async (credentials: Credentials) => {
     const crosscheckPassword = await bcrypt.compareSync(credentials.password, user.password);
 
     if (crosscheckPassword) {
-        const { password,createdAt, ...rest } = user;
+        const { password, ...rest } = user;
         return rest
     } else {
         throw new Error("Password is Invalid")
@@ -35,7 +35,7 @@ const getUserWithEmail =async (email:string) => {
     return user
 }
 
-type UserFormData =  Omit<User, "id" | "createdAt">
+type UserFormData =  Omit<User, "id">
 export const registerNewUser =async (formData: UserFormData) => {
        const emailExists = await getUserWithEmail(formData.email)
     if (emailExists) {
@@ -49,6 +49,7 @@ export const registerNewUser =async (formData: UserFormData) => {
             name: formData.name,
             email: formData.email,
             mobile: formData.mobile,
+            role: formData.role, 
             password: hash,
            
 
@@ -57,7 +58,8 @@ export const registerNewUser =async (formData: UserFormData) => {
             id: true,
             email: true,
             name: true,
-            mobile:true 
+            mobile: true ,
+            role:true 
         }
     });
     

@@ -1,6 +1,7 @@
 import React from "react";
 import CssBaseline from "@mui/material/CssBaseline";
-
+import Box from "@mui/material/Box";
+import Avatar from "@mui/material/Avatar";
 import Grid from "@mui/material/Grid";
 import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
@@ -8,8 +9,10 @@ import Paper from "@mui/material/Paper";
 import Layout from "~/src/Layout";
 import { ValidatedForm } from "remix-validated-form";
 import Alert from "@mui/material/Alert";
-import { Link, useLoaderData } from "@remix-run/react";
+import Link from "@mui/material/Link";
+import { useLoaderData } from "@remix-run/react";
 import { registerValidatior } from "~/lib/validatorSchema";
+import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import { FormInputText } from "~/components/FormInputText";
 import FormHelperText from "@mui/material/FormHelperText";
 import SubmitButton from "~/components/SubmitButton";
@@ -23,69 +26,70 @@ export default function Register() {
 
   //const isSubmitting = useIsSubmitting("signUp");
   return (
-    <Layout>
-      <Container component="main" maxWidth="xs">
-        <CssBaseline />
-        <Paper
-          sx={{
-            display: "flex",
-            flexDirection: "column",
-          }}
-          elevation={0}
-          square
-        >
-          {error && <Alert severity="error">{error.message}</Alert>}
-          <Typography component="h1" variant="h5" sx={{ fontWeight: "bold" }}>
-            REGISTER
-          </Typography>
-          <Typography variant="caption" color="darkgray">
-            Welome! Please fill in the required details to register
-          </Typography>
-          <ValidatedForm
-            style={{ width: "100%", marginTop: 15 }}
-            validator={registerValidatior}
-            //resetAfterSubmit={true}
-            defaultValues={{}}
-            method="post"
-            id="register"
-          >
-            <FormInputText name="name" label="User Name" sx={{ mb: 3 }} />
-            <FormInputText name="email" label="Email" sx={{ mt: 2 }} />
-            {error && (
-              <FormHelperText sx={{ color: "red" }}>
-                {error.message}
-              </FormHelperText>
-            )}
-            <FormInputText
-              name="password"
-              label="Password"
-              type="password"
-              sx={{ mt: 2 }}
-            />
-            <FormInputText
-              name="confirm"
-              label="Password Confirmation"
-              type="password"
-              sx={{ mt: 2, mb: 2 }}
-            />
-            <FormInputText
-              name="mobile"
-              label="Contact Number"
-              sx={{ mt: 2 }}
-            />
+    <Container component="main" maxWidth="xs" sx={{ mt: 8 }}>
+      <CssBaseline />
+      <Paper
+        sx={{
+          //marginTop: 8,
+          display: "flex",
+          flexDirection: "column",
+          backgroundColor: "white",
+          padding: 3,
 
-            <SubmitButton title="Register" formId="register" />
-            <Grid container>
-              <Grid item sx={{ px: 2, ml: 2 }}>
-                <Link to="/" style={{ color: "blue", fontSize: 13 }}>
-                  {"Already have an account? Sign In"}
-                </Link>
-              </Grid>
+          alignItems: "center",
+        }}
+        square
+        elevation={8}
+      >
+        <Avatar sx={{ m: 1, bgcolor: "secondary.main" }}>
+          <LockOutlinedIcon />
+        </Avatar>
+        <Typography component="h1" variant="h5" sx={{ fontWeight: "bold" }}>
+          Sign up
+        </Typography>
+        <Typography variant="caption" color="darkgray">
+          Welome! Please fill in the required details to register
+        </Typography>
+        <Box
+          component={ValidatedForm}
+          validator={registerValidatior}
+          id="signIn"
+          method="post"
+          sx={{ mt: 1 }}
+        >
+          <Grid container spacing={2}>
+            <Grid item xs={12}>
+              <FormInputText name="name" label="User Name" />
             </Grid>
-          </ValidatedForm>
-        </Paper>
-      </Container>
-    </Layout>
+            <Grid item xs={12}>
+              <FormInputText name="email" label="Email Address" />
+            </Grid>
+            <Grid item xs={12}>
+              <FormInputText name="password" label="Password" type="password" />
+            </Grid>
+            <Grid item xs={12}>
+              <FormInputText
+                name="confirm"
+                label="Password Confirmation"
+                type="password"
+              />
+            </Grid>
+          </Grid>
+          <SubmitButton
+            title="Register"
+            formId="register"
+            styles={{ mt: 3, mb: 2 }}
+          />
+          <Grid container justifyContent="flex-end">
+            <Grid item>
+              <Link href="/" variant="body2">
+                Already have an account? Sign in
+              </Link>
+            </Grid>
+          </Grid>
+        </Box>
+      </Paper>
+    </Container>
   );
 }
 

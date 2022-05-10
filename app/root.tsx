@@ -58,7 +58,12 @@ const Document = withEmotionCache(
             content="emotion-insertion-point"
           />
         </head>
-        <body>
+        <body
+          style={{
+            background: 'url("/background2.jpg"), no-repeat',
+            backgroundPosition: "left center",
+          }}
+        >
           {children}
           <ScrollRestoration />
           <Scripts />
@@ -74,9 +79,7 @@ const Document = withEmotionCache(
 export default function App() {
   return (
     <Document>
-      <Container maxWidth={false} disableGutters sx={{ minHeight: "100vh" }}>
-        <Outlet />
-      </Container>
+      <Outlet />
     </Document>
   );
 }
