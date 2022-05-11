@@ -11,18 +11,19 @@ import List from "@mui/material/List";
 import Typography from "@mui/material/Typography";
 import Divider from "@mui/material/Divider";
 import IconButton from "@mui/material/IconButton";
-import Badge from "@mui/material/Badge";
 import Container from "@mui/material/Container";
 import Grid from "@mui/material/Grid";
-import Paper from "@mui/material/Paper";
+//import Paper from "@mui/material/Paper";
 import Link from "@mui/material/Link";
 import MenuIcon from "@mui/icons-material/Menu";
 import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
-import NotificationsIcon from "@mui/icons-material/Notifications";
-//import { mainListItems, secondaryListItems } from "./listItems";
+//import NotificationsIcon from "@mui/icons-material/Notifications";
+import { mainListItems, secondaryListItems } from "./listItems";
 
 import theme from "~/src/theme";
 import AccountMenu from "./AccountMenu";
+import type { User } from "@prisma/client";
+import { useLoaderData } from "@remix-run/react";
 
 function Copyright(props: any) {
   return (
@@ -95,8 +96,14 @@ const Drawer = styled(MuiDrawer, {
 type Props = {
   children: React.ReactNode;
 };
+type dataType = {
+  user: Omit<User, "password">;
+};
 const Dashboard: React.FC<Props> = ({ children }) => {
   const [open, setOpen] = React.useState(true);
+  const data = useLoaderData<dataType>();
+  //console.log(data.user.role);
+
   const toggleDrawer = () => {
     setOpen(!open);
   };
@@ -130,7 +137,7 @@ const Dashboard: React.FC<Props> = ({ children }) => {
               noWrap
               sx={{ flexGrow: 1 }}
             >
-              Dashboard
+              {data.user.role === "ADMIN" ? "Admin" : "Attendant"} Dashboard
             </Typography>
             <AccountMenu />
           </Toolbar>
@@ -150,9 +157,9 @@ const Dashboard: React.FC<Props> = ({ children }) => {
           </Toolbar>
           <Divider />
           <List component="nav">
-            {/*mainListItems*/}
+            {mainListItems}
             <Divider sx={{ my: 1 }} />
-            {/*secondaryListItems*/}
+            {secondaryListItems}
           </List>
         </Drawer>
         <Box
@@ -169,9 +176,7 @@ const Dashboard: React.FC<Props> = ({ children }) => {
         >
           <Toolbar />
           <Container maxWidth="lg" sx={{ mt: 4, mb: 4 }}>
-            <Grid container spacing={3}>
-              {children}
-            </Grid>
+            <Grid container>{children}</Grid>
             <Copyright sx={{ pt: 4 }} />
           </Container>
         </Box>
