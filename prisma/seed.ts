@@ -1,5 +1,4 @@
 import { faker } from '@faker-js/faker';
-import type { Decimal } from '@prisma/client/runtime';
 import { db } from '~/lib/db.server';
 
 
