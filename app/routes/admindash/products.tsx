@@ -9,7 +9,7 @@ import Typography from "@mui/material/Typography";
 import DrugsTable from "~/components/DrugsTable";
 import { Link } from "@remix-run/react";
 import Box from "@mui/material/Box";
-import { getAllDrugs } from "~/controllers/drugsController";
+import { deleteDrug, getAllDrugs } from "~/controllers/drugsController";
 
 const AdminProductsPage = () => {
   return (
@@ -22,7 +22,11 @@ const AdminProductsPage = () => {
             <Link
               to="/admindash/create"
               //prefetch="intent"
-              style={{ alignSelf: "flex-end", marginBottom: 10 }}
+              style={{
+                alignSelf: "flex-end",
+                marginBottom: 10,
+                textDecoration: "none",
+              }}
             >
               <Button
                 //href="/dashboard/create"
@@ -53,8 +57,8 @@ export let loader: LoaderFunction = async ({ request }) => {
 };
 
 export const action: ActionFunction = async ({ request }) => {
-  //const formData = await request.formData();
-  // const id = formData.get("button") as string;
-  return null;
-  //return await deleteCriminalRecord(id);
+  const formData = await request.formData();
+  const Id = formData.get("button") as string;
+
+  return await deleteDrug(Id);
 };

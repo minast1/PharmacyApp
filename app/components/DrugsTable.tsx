@@ -159,15 +159,16 @@ const DrugsTable = () => {
       renderCell: (params: GridValueGetterParams) => {
         return (
           <Box display="flex">
-            <Link to={`/dashboard/${params.id}`} prefetch="intent">
-              <Button
-                variant="contained"
-                size="small"
-                sx={{ mr: 3, textTransform: "capitalize" }}
-              >
-                View
-              </Button>
-            </Link>
+            <Button
+              variant="contained"
+              component={Link}
+              to={`/admindash/${params.id}`}
+              prefetch="intent"
+              size="small"
+              sx={{ mr: 3, textTransform: "capitalize" }}
+            >
+              View
+            </Button>
 
             <Button
               variant="contained"

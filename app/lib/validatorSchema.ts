@@ -25,6 +25,18 @@ export const registerValidatior = withZod(
   
 )
 
+export const drugValidator = withZod(
+  z.object({
+    name: z.string().nonempty("* This field is required"),
+    manufacturer: z.string().nonempty("* This field is required"),
+    batch_no: z.string().nonempty("* This field is required"),
+    price: z.string().nonempty("* This field is required"),
+       quantity: z.string({required_error: "* This field is required"}).refine((val) => !Number.isNaN(parseInt(val, 10)), {
+    //message: "Expected number, received a string"
+  })
+  })
+)
+
 export const profileValidator = withZod(
   z.object({
      name: z.string().nonempty("* This field is required"),
