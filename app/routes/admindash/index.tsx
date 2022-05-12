@@ -23,8 +23,9 @@ const AdminIndexPage = () => {
             p: 2,
             display: "flex",
             flexDirection: "column",
-            height: 240,
+            height: 370,
           }}
+          elevation={5}
         >
           <Chart />
         </Paper>

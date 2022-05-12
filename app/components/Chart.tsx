@@ -32,14 +32,14 @@ export default function Chart() {
 
   return (
     <React.Fragment>
-      <Title>Today</Title>
+      <Title>Daily Sales Projections</Title>
       <ResponsiveContainer>
         <LineChart
           data={data}
           margin={{
             top: 16,
             right: 16,
-            bottom: 0,
+            bottom: 20,
             left: 24,
           }}
         >
@@ -47,7 +47,19 @@ export default function Chart() {
             dataKey="time"
             stroke={theme.palette.text.secondary}
             style={theme.typography.body2}
-          />
+          >
+            <Label
+              angle={360}
+              position="bottom"
+              style={{
+                textAnchor: "middle",
+                fill: theme.palette.text.primary,
+                ...theme.typography.body1,
+              }}
+            >
+              Time (hr)
+            </Label>
+          </XAxis>
           <YAxis
             stroke={theme.palette.text.secondary}
             style={theme.typography.body2}
@@ -61,7 +73,7 @@ export default function Chart() {
                 ...theme.typography.body1,
               }}
             >
-              Sales ($)
+              Sales (GH₵)
             </Label>
           </YAxis>
           <Line

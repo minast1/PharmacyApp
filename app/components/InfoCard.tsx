@@ -15,7 +15,7 @@ type appProps = {
 
 export default function InfoCard({ title, items }: appProps) {
   return (
-    <Paper elevation={1} sx={{ p: 2 }}>
+    <Paper elevation={5} sx={{ p: 2 }}>
       <Title>{title}</Title>
       {items.length ? (
         <Stack spacing={2}>
