@@ -9,7 +9,7 @@ const DashboardLayout = () => {
   const data = useLoaderData();
   return (
     <Dashboard>
-      <Outlet context={data} />
+      <Outlet context={data.user} />
     </Dashboard>
   );
 };

@@ -10,10 +10,15 @@ import TextField from "@mui/material/TextField";
 import ClearIcon from "@mui/icons-material/Clear";
 import SearchIcon from "@mui/icons-material/Search";
 import Button from "@mui/material/Button";
-import { Link, useFetcher, useLoaderData } from "@remix-run/react";
+import {
+  Link,
+  useFetcher,
+  useLoaderData,
+  useOutletContext,
+} from "@remix-run/react";
 import { format } from "date-fns";
 import CircularProgress from "@mui/material/CircularProgress";
-import type { Product } from "@prisma/client";
+import type { Product, User } from "@prisma/client";
 
 function escapeRegExp(value: string): string {
   return value.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, "\\$&");
@@ -73,7 +78,9 @@ function QuickSearchToolbar(props: QuickSearchToolbarProps) {
 
 type prodType = Omit<Product, "price">;
 const DrugsTable = () => {
-  const parentData = useLoaderData<Product[]>(); ///THIS IS WHAT WE NEED !!!!!!
+  const parentData = useLoaderData<Product[]>();
+  const user = useOutletContext<User>();
+  //console.log(user.role);
   const fetcher = useFetcher();
   const [searchText, setSearchText] = React.useState("");
   const [rows, setRows] = React.useState<prodType[] | []>([]);
@@ -112,11 +119,20 @@ const DrugsTable = () => {
     },
     {
       field: "batch_no",
-      headerName: "Batch No",
+      headerName: "Batch Number",
+      width: 150,
+      align: "center",
+      headerAlign: "center",
+      hide: user.role === "ATTENDANT" && true,
+    },
+    {
+      field: "price",
+      headerName: "Price GH₵",
       align: "center",
       type: "string",
       headerAlign: "center",
       width: 160,
+      hide: user.role === "ADMIN" && true,
     },
     {
       field: "production_date",
@@ -153,7 +169,7 @@ const DrugsTable = () => {
       headerName: "Actions Area",
       minWidth: 100,
       flex: 1,
-
+      hide: user.role === "ATTENDANT" && true,
       align: "right",
       headerAlign: "right",
       renderCell: (params: GridValueGetterParams) => {

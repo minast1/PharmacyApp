@@ -1,42 +1,56 @@
-/* eslint-disable react-hooks/exhaustive-deps */
 import React from "react";
-import Card from "@mui/material/Card";
-import CardContent from "@mui/material/CardContent";
+import Grid from "@mui/material/Grid";
+import InfoCard from "~/components/InfoCard";
+import Paper from "@mui/material/Paper";
+import DrugsTable from "~/components/DrugsTable";
 import type { ActionFunction, LoaderFunction } from "@remix-run/node";
-import Box from "@mui/material/Box";
-import Typography from "@mui/material/Typography";
-//import { useMediaQuery, useTheme } from "@mui/material";
-//import { useOutletContext } from "@remix-run/react";
+import { getAllDrugs } from "~/controllers/drugsController";
+import SaleComponent from "~/components/SaleComponent";
+import type { Item } from "~/lib/itemStore";
 
-const IndexPage = () => {
-  // const navigate = useNavigate();
-  //const data = useOutletContext<dataType>();
-  // const theme = useTheme();
-  //const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
-
+const AttendantIndexPage = () => {
   return (
-    <>
-      <Card sx={{ mb: 2, mt: 2, backgroundColor: "white" }} elevation={1}>
-        <Box display="flex" alignItems="center" ml={2} mt={2}>
-          <Typography variant="h6">I am the attendant index page </Typography>
-          <Box flexGrow={1} />
-        </Box>
-
-        <CardContent sx={{ borderTop: "1px solid lightgray" }}></CardContent>
-      </Card>
-    </>
+    <Grid container spacing={3}>
+      {/* Chart */}
+      <Grid item xs={12} md={4}>
+        <InfoCard title="Expiry Date Notifications" items={[]} />
+      </Grid>
+      <Grid item xs={12} md={4}>
+        <InfoCard title="Out of Stock Notifications" items={[]} />
+      </Grid>
+      <Grid item xs={12} md={4}>
+        <InfoCard title="Almost Finished Notifications" items={[]} />
+      </Grid>
+      <Grid item xs={12}>
+        <Paper
+          sx={{
+            p: 2,
+            display: "flex",
+            flexDirection: "column",
+            height: 400,
+          }}
+          elevation={4}
+        >
+          <DrugsTable />
+        </Paper>
+      </Grid>
+      <Grid item xs={12}>
+        <SaleComponent />
+      </Grid>
+    </Grid>
   );
 };
 
-export default IndexPage;
+export default AttendantIndexPage;
 
 export let loader: LoaderFunction = async ({ request }) => {
-  //const session = await getSession(request.headers.get("cookie"));
-  //const user = session.get("user");
-
-  return null;
+  //get all drugs to load here
+  return await getAllDrugs();
 };
 
 export let action: ActionFunction = async ({ request }) => {
+  const data = await request.formData();
+  const items = data.get("items") as unknown as Item[];
+  console.log(items);
   return null;
 };
