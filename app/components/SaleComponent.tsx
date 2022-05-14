@@ -1,6 +1,6 @@
 import React from "react";
 import Box from "@mui/material/Box";
-//import Typography from "@mui/material/Typography";
+import CircularProgress from "@mui/material/CircularProgress";
 import Card from "@mui/material/Card";
 import Button from "@mui/material/Button";
 import Divider from "@mui/material/Divider";
@@ -69,7 +69,11 @@ const SaleComponent = () => {
                 );
               }}
             >
-              Submit Sale
+              {fetcher.state === "submitting" ? (
+                <CircularProgress color="inherit" size={20} />
+              ) : (
+                "Submit Sale"
+              )}
             </Button>
           </Box>
         </Card>

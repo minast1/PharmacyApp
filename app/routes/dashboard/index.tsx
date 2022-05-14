@@ -3,10 +3,14 @@ import Grid from "@mui/material/Grid";
 import InfoCard from "~/components/InfoCard";
 import Paper from "@mui/material/Paper";
 import DrugsTable from "~/components/DrugsTable";
-import type { ActionFunction, LoaderFunction } from "@remix-run/node";
+import {
+  type ActionFunction,
+  type LoaderFunction,
+  redirect,
+} from "@remix-run/node";
 import { getAllDrugs } from "~/controllers/drugsController";
 import SaleComponent from "~/components/SaleComponent";
-import type { Item } from "~/lib/itemStore";
+import { createTransaction } from "~/controllers/transactionController";
 
 const AttendantIndexPage = () => {
   return (
@@ -50,7 +54,8 @@ export let loader: LoaderFunction = async ({ request }) => {
 
 export let action: ActionFunction = async ({ request }) => {
   const data = await request.formData();
-  const items = data.get("items") as unknown as Item[];
-  console.log(items);
-  return null;
+  const items = data.get("items") as string;
+
+  return await createTransaction(JSON.parse(items));
+  //redirect("/dashboard/invoice");
 };

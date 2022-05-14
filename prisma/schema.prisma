@@ -47,7 +47,7 @@ model ProductTransactions {
   productId     String
   transactionId String
   quantity      Int
-  total         Decimal      @db.Decimal(4, 2)
+  total         Decimal      @db.Decimal(5, 2)
 }
 
 enum Role {
