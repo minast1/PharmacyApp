@@ -3,9 +3,10 @@ import Grid from "@mui/material/Grid";
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
 import { useLoaderData } from "@remix-run/react";
-import type { Product } from "@prisma/client";
+//import type { Product } from "@prisma/client";
 import MenuItem from "@mui/material/MenuItem";
 import { useStore } from "~/lib/itemStore";
+import type { loaderItemsType } from "~/routes/dashboard/";
 
 const ItemBox = () => {
   const [id, setId] = React.useState<string>("");
@@ -16,14 +17,15 @@ const ItemBox = () => {
   // const Items = useStore((state) => state.items);
   const removeItem = useStore((state) => state.removeItem);
   //console.log(Items);
-  const drugs = useLoaderData<Product[]>();
+
+  const data = useLoaderData<loaderItemsType>();
 
   return (
     <Grid container spacing={2} alignItems="center">
       <Grid item xs={12} sm={12} md={4}>
         <TextField
           id="outlined-select-drug"
-          select
+          //select
           fullWidth
           size="small"
           label="Select Drug"
@@ -34,7 +36,7 @@ const ItemBox = () => {
             //setPrice(selectedItemPrice?.current?.value?.price)
           }}
         >
-          {drugs.map((option) => (
+          {data.all.map((option) => (
             <MenuItem key={option.id} value={option.id}>
               {option.name}
             </MenuItem>

@@ -19,6 +19,7 @@ import {
 import { format } from "date-fns";
 import CircularProgress from "@mui/material/CircularProgress";
 import type { Product, User } from "@prisma/client";
+import type { loaderItemsType } from "~/routes/dashboard/";
 
 function escapeRegExp(value: string): string {
   return value.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, "\\$&");
@@ -78,7 +79,8 @@ function QuickSearchToolbar(props: QuickSearchToolbarProps) {
 
 type prodType = Omit<Product, "price">;
 const DrugsTable = () => {
-  const parentData = useLoaderData<Product[]>();
+  const data = useLoaderData<loaderItemsType>();
+  const parentData = data.all;
   const user = useOutletContext<User>();
   //console.log(user.role);
   const fetcher = useFetcher();

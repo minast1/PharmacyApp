@@ -1,5 +1,6 @@
 import { db } from '~/lib/db.server';
 import type { Product } from '@prisma/client';
+import { addMonths, subMonths } from 'date-fns';
 
 
 export const getAllDrugs = async () => {
@@ -30,5 +31,44 @@ export const findDrugById = async (Id: string) => {
     const data = await db.product.findFirst({
         where: { id: Id }
     });
+    return data;
+}
+
+export const almostFinished =async () => {
+    const data = await db.product.findMany({
+        where: {
+            quantity: {
+                lte: 10
+            }
+        }
+    });
+    return data;
+}
+
+export const outOfStock = async () => {
+    const data = await db.product.findMany({
+        where: {
+            quantity: {
+                equals: 0
+            }
+        }
+    });
+    return data; 
+}
+
+export const expiring = async () => {
+    const threeMonthsFromNow = subMonths(new Date(), 3);
+    console.log(threeMonthsFromNow)
+    const data = await db.product.findMany({
+        where: {
+            expiry_date: {
+                gte:threeMonthsFromNow,
+                lte: addMonths(new Date(), 3)
+                
+            },
+        
+        }
+    });
+
     return data;
 }
