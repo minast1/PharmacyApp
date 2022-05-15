@@ -15,14 +15,16 @@ import {
 } from "~/controllers/transactionController";
 import { Link, useLoaderData } from "@remix-run/react";
 import { format } from "date-fns";
-import IconButton from "@mui/material/IconButton";
 import PrintIcon from "@mui/icons-material/Print";
 
 const InvoicePage = () => {
   const data = useLoaderData<transactionType>();
+  const subtotal = data
+    .map((items) => Number(items.total))
+    .reduce((accumulator, currentValue) => accumulator + currentValue);
+  const total = subtotal + 5;
+  //console.log(subtotal);
 
-  //let time = date.set
-  //console.log(time);
   return (
     <Container component="main" maxWidth="sm" sx={{ mb: 3 }}>
       <Paper
@@ -60,19 +62,19 @@ const InvoicePage = () => {
           <ListItem sx={{ py: 1, px: 0 }}>
             <ListItemText primary="Sub Total" />
             <Typography variant="subtitle1" sx={{ fontWeight: 700 }}>
-              $34.06
+              Gh₵ {subtotal}
             </Typography>
           </ListItem>
           <ListItem sx={{ py: 1, px: 0 }}>
             <ListItemText primary="Sales Tax" />
             <Typography variant="subtitle1" sx={{ fontWeight: 700 }}>
-              $34.06
+              Gh₵ 5.00
             </Typography>
           </ListItem>
           <ListItem sx={{ py: 1, px: 0 }}>
             <ListItemText primary="Total Charge" />
             <Typography variant="subtitle1" sx={{ fontWeight: 700 }}>
-              $34.06
+              Gh₵ {total}
             </Typography>
           </ListItem>
           <ListItem sx={{ py: 1, px: 0 }}>
