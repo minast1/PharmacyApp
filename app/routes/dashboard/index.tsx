@@ -88,6 +88,6 @@ export let action: ActionFunction = async ({ request }) => {
   const data = await request.formData();
   const items = data.get("items") as string;
 
-  return await createTransaction(JSON.parse(items));
-  //redirect("/dashboard/invoice");
+  await createTransaction(JSON.parse(items));
+  return redirect("/dashboard/invoice");
 };

@@ -16,16 +16,16 @@ const ItemBox = () => {
   const [added, setAdded] = React.useState<boolean>(false);
   // const Items = useStore((state) => state.items);
   const removeItem = useStore((state) => state.removeItem);
-  //console.log(Items);
 
   const data = useLoaderData<loaderItemsType>();
-
+  const { all } = data;
+  //console.log(data.all);
   return (
     <Grid container spacing={2} alignItems="center">
       <Grid item xs={12} sm={12} md={4}>
         <TextField
           id="outlined-select-drug"
-          //select
+          select
           fullWidth
           size="small"
           label="Select Drug"
@@ -36,7 +36,7 @@ const ItemBox = () => {
             //setPrice(selectedItemPrice?.current?.value?.price)
           }}
         >
-          {data.all.map((option) => (
+          {all.map((option) => (
             <MenuItem key={option.id} value={option.id}>
               {option.name}
             </MenuItem>

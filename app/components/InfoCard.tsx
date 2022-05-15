@@ -24,12 +24,12 @@ export default function InfoCard({ title, items }: appProps) {
         backgroundColor: title.includes("Expiry")
           ? "#FFE53B"
           : title.includes("Stock")
-          ? "#21D4FD"
+          ? "#00DBDE"
           : "#FF3CAC",
         backgroundImage: title.includes("Expiry")
           ? "linear-gradient(147deg, #FFE53B 0%, #FF2525 74%)"
           : title.includes("Stock")
-          ? "linear-gradient(19deg, #21D4FD 0%, #B721FF 100%)"
+          ? "linear-gradient(90deg, #00DBDE 0%, #FC00FF 100%)"
           : "linear-gradient(225deg, #FF3CAC 0%, #784BA0 50%, #2B86C5 100%)",
       }}
     >
@@ -66,7 +66,7 @@ export default function InfoCard({ title, items }: appProps) {
             variant="contained"
             size="small"
             fullWidth
-            to="/dashbaord/"
+            to="#"
           >
             View Full Details
           </Button>

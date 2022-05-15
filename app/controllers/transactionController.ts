@@ -1,3 +1,4 @@
+import { Prisma } from "@prisma/client"
 import { db } from "~/lib/db.server"
 
 
@@ -36,4 +37,28 @@ export const createTransaction = async (params: saleInfoType[]) => {
         
        
     return data;
+}
+
+ 
+export type transactionType = Prisma.PromiseReturnType<typeof getLatestTransactionDetails>
+export const getLatestTransactionDetails = async () => {
+ 
+     const trans =  await db.transaction.findMany({
+        orderBy: { id: 'desc' },
+        take: 1
+     });
+    
+    const transId = trans[0].id
+    
+    
+    const data = await db.productTransactions.findMany({
+        where: {
+            transactionId :  transId
+        },
+        include: {
+            product : true
+        }
+    
+    })
+    return data 
 }

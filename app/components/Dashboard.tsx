@@ -85,7 +85,7 @@ const Dashboard: React.FC<Props> = ({ children }) => {
             >
               {data.user.role === "ADMIN" ? "Admin" : "Attendant"} Dashboard
             </Typography>
-            {data.user.role === "ADMIN" ? (
+            {data.user.role === "ADMIN" && (
               <Button
                 variant="contained"
                 color="success"
@@ -94,16 +94,6 @@ const Dashboard: React.FC<Props> = ({ children }) => {
                 to="/admindash/products"
               >
                 Manage Drugs
-              </Button>
-            ) : (
-              <Button
-                variant="contained"
-                color="success"
-                size="small"
-                component={Link}
-                to="/dashboard/sale"
-              >
-                Make Sale
               </Button>
             )}
 
