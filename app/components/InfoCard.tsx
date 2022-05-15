@@ -7,6 +7,7 @@ import Button from "@mui/material/Button";
 import { Link } from "@remix-run/react";
 import type { Product } from "@prisma/client";
 import Stack from "@mui/material/Stack";
+import Divider from "@mui/material/Divider";
 
 type appProps = {
   title: string;
@@ -15,16 +16,36 @@ type appProps = {
 
 export default function InfoCard({ title, items }: appProps) {
   return (
-    <Paper elevation={5} sx={{ p: 2 }}>
+    <Paper
+      elevation={5}
+      sx={{
+        p: 2,
+        height: 220,
+        backgroundColor: title.includes("Expiry")
+          ? "#FFE53B"
+          : title.includes("Stock")
+          ? "#21D4FD"
+          : "#FF3CAC",
+        backgroundImage: title.includes("Expiry")
+          ? "linear-gradient(147deg, #FFE53B 0%, #FF2525 74%)"
+          : title.includes("Stock")
+          ? "linear-gradient(19deg, #21D4FD 0%, #B721FF 100%)"
+          : "linear-gradient(225deg, #FF3CAC 0%, #784BA0 50%, #2B86C5 100%)",
+      }}
+    >
       <Title>{title}</Title>
+      <Divider sx={{ backgroundColor: "black", my: 1 }} />
       {items.length ? (
-        <Stack spacing={2}>
+        <Stack spacing={1}>
           {items.map((el: Product) => (
             <Box key={el.id}>
-              <Typography color="text.secondary" sx={{ flex: 1 }}>
+              <Typography sx={{ flex: 1, color: "black", fontWeight: "bold" }}>
                 Name: {el.name}
               </Typography>
-              <Typography color="text.secondary" sx={{ flex: 1 }}>
+              <Typography
+                color="text.secondary"
+                sx={{ flex: 1, color: "black", fontWeight: "bold" }}
+              >
                 Batch Id: {el.batch_no}
               </Typography>
             </Box>
@@ -45,7 +66,7 @@ export default function InfoCard({ title, items }: appProps) {
             variant="contained"
             size="small"
             fullWidth
-            to="/admindash"
+            to="/dashbaord/"
           >
             View Full Details
           </Button>
