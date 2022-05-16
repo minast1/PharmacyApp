@@ -42,7 +42,19 @@ const AdminProductsPage = () => {
           <CardContent sx={{ borderTop: "1px solid lightgray" }}>
             <DrugsTable />
           </CardContent>
-          <CardActions disableSpacing></CardActions>
+          <CardActions disableSpacing>
+            <Box sx={{ flexGrow: 1 }} />
+            <Button
+              component={Link}
+              to="/admindash/"
+              prefetch="intent"
+              variant="contained"
+              //size="small"
+              //sx={{ }}
+            >
+              Back
+            </Button>
+          </CardActions>
         </Card>
       </Grid>
     </Grid>

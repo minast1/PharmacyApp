@@ -93,6 +93,7 @@ const Dashboard: React.FC<Props> = ({ children }) => {
                 sx={{ marginRight: 1 }}
                 component={Link}
                 to="/admindash/products"
+                prefetch="render"
               >
                 Manage Drugs
               </Button>
