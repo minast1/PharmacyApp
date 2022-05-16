@@ -1,4 +1,4 @@
-import { Prisma } from "@prisma/client"
+import type  { Prisma } from "@prisma/client"
 import { db } from "~/lib/db.server"
 
 
@@ -11,8 +11,8 @@ type saleInfoType =  {
 
 export const createTransaction = async (params: saleInfoType[]) => {
     
-    const convertTotalToDecimal = (quantity: number , price:string):number => { return ((quantity * parseInt(price)))}
-    const saleInfo = params.map(({ productId, quantity, price }) => ({ productId: productId, quantity: quantity, total:convertTotalToDecimal(quantity, price)  }));
+    const Total = (quantity: number , price:string):number =>  ((quantity * Number(price)))
+    const saleInfo = params.map(({ productId, quantity, price }) => ({ productId: productId, quantity: quantity, total:Total(quantity, price)  }));
    const data =  await db.transaction.create({
         data: {
             products: {
@@ -21,20 +21,18 @@ export const createTransaction = async (params: saleInfoType[]) => {
         }
    });
     
-    //update the quantities of the products 
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    const decreaseSaleProductQuantities = await Promise.all(params.map(async (el) => {
-        return await db.product.update({
-            where: { id: el.productId },
+     //update the quantities of the products 
+    for (const item of params) {
+         
+           await db.product.update({
+            where: { id: item.productId },
             data: {
                 quantity: {
-                    decrement: el.quantity
+                    decrement: item.quantity
                 }
             }
         });
-        })
-    )
-        
+     }
        
     return data;
 }

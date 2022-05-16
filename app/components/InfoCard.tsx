@@ -65,8 +65,9 @@ export default function InfoCard({ title, items }: appProps) {
             component={Link}
             variant="contained"
             size="small"
+            prefetch="intent"
             fullWidth
-            to="#"
+            to={`/dashboard/${title}`}
           >
             View Full Details
           </Button>

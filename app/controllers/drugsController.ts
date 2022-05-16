@@ -38,7 +38,8 @@ export const almostFinished =async () => {
     const data = await db.product.findMany({
         where: {
             quantity: {
-                lte: 10
+                lte: 10, 
+                gt: 0
             }
         }
     });
@@ -58,7 +59,7 @@ export const outOfStock = async () => {
 
 export const expiring = async () => {
     const threeMonthsFromNow = subMonths(new Date(), 3);
-    console.log(threeMonthsFromNow)
+    //console.log(threeMonthsFromNow)
     const data = await db.product.findMany({
         where: {
             expiry_date: {
