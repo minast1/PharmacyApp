@@ -17,7 +17,7 @@ const DrugDetailsPage = () => {
   return (
     <Grid container>
       <Grid item xs={12}>
-        <Card sx={{ mb: 10, mt: 3 }} elevation={5}>
+        <Card sx={{ mb: 10, mt: 3 }} variant="outlined">
           <Box display="flex" alignItems="center" p={1}>
             <Box flexGrow={1} />
             <Link

@@ -88,15 +88,23 @@ const Dashboard: React.FC<Props> = ({ children }) => {
             {data.user.role === "ADMIN" && (
               <Button
                 variant="contained"
-                color="success"
+                color="warning"
                 size="small"
+                sx={{ marginRight: 1 }}
                 component={Link}
                 to="/admindash/products"
               >
                 Manage Drugs
               </Button>
             )}
-
+            <Typography
+              component="h1"
+              variant="h6"
+              color="inherit"
+              sx={{ textTransform: "capitalize" }}
+            >
+              {data.user.name}
+            </Typography>
             <AccountMenu />
           </Toolbar>
         </AppBar>

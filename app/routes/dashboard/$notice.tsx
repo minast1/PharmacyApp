@@ -6,18 +6,24 @@ import Container from "@mui/material/Container";
 import Button from "@mui/material/Button";
 import Divider from "@mui/material/Divider";
 import type { LoaderFunction } from "@remix-run/node";
-import { Link, useLoaderData, useParams } from "@remix-run/react";
+import {
+  Link,
+  useLoaderData,
+  useOutletContext,
+  useParams,
+} from "@remix-run/react";
 import {
   almostFinished,
   expiring,
   outOfStock,
 } from "~/controllers/drugsController";
-import type { Product } from "@prisma/client";
+import type { Product, User } from "@prisma/client";
 import DrugNotice from "~/components/DrugNotice";
 
 const Notifications = () => {
   let { notice } = useParams();
   const data = useLoaderData<Product[]>();
+  const user = useOutletContext<User>();
 
   return (
     <Container component="main" maxWidth="lg" sx={{ mb: 3 }}>
@@ -39,7 +45,7 @@ const Notifications = () => {
           <Box sx={{ flexGrow: 1 }} />
           <Button
             component={Link}
-            to="/dashboard/"
+            to={user.role === "ADMIN" ? "/admindash/" : "/dashboard/"}
             prefetch="intent"
             variant="contained"
             size="small"

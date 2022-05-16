@@ -1,5 +1,5 @@
 import {
-  redirect,
+  //redirect,
   type ActionFunction,
   type LoaderFunction,
 } from "@remix-run/node";
@@ -41,5 +41,5 @@ export const loader: LoaderFunction = async ({ request }) => {
     failureRedirect: "/",
   });
 
-  return user.role === "ADMIN" ? redirect("/admindash/") : { user: user };
+  return { user: user };
 };

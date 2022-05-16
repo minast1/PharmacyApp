@@ -81,6 +81,7 @@ type prodType = Omit<Product, "price">;
 const DrugsTable = () => {
   const data = useLoaderData<loaderItemsType>();
   const parentData = data.all;
+
   const user = useOutletContext<User>();
   //console.log(user.role);
   const fetcher = useFetcher();
@@ -223,6 +224,7 @@ const DrugsTable = () => {
         disableColumnFilter
         pageSize={10}
         disableColumnMenu
+        rowsPerPageOptions={[10, 20]}
         disableColumnSelector
         disableSelectionOnClick
         loading={rows.length === 0}

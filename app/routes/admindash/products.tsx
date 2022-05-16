@@ -15,7 +15,7 @@ const AdminProductsPage = () => {
   return (
     <Grid container>
       <Grid item xs={12}>
-        <Card sx={{ mb: 10, mt: 3 }} elevation={5}>
+        <Card sx={{ mb: 10, mt: 3 }} variant="outlined">
           <Box display="flex" alignItems="center" p={1}>
             <Typography variant="h6">Products Information Table</Typography>
             <Box flexGrow={1} />
@@ -53,7 +53,8 @@ export default AdminProductsPage;
 
 export let loader: LoaderFunction = async ({ request }) => {
   //get all drugs to load here
-  return await getAllDrugs();
+  const all = await getAllDrugs();
+  return { all: all };
 };
 
 export const action: ActionFunction = async ({ request }) => {
