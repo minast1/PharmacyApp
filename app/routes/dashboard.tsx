@@ -1,4 +1,8 @@
-import { type ActionFunction, type LoaderFunction } from "@remix-run/node";
+import {
+  redirect,
+  type ActionFunction,
+  type LoaderFunction,
+} from "@remix-run/node";
 import { Outlet, useLoaderData } from "@remix-run/react";
 import React from "react";
 import Dashboard from "~/components/Dashboard";
@@ -37,5 +41,5 @@ export const loader: LoaderFunction = async ({ request }) => {
     failureRedirect: "/",
   });
 
-  return { user: user };
+  return user.role === "ADMIN" ? redirect("/admindash/") : { user: user };
 };

@@ -16,6 +16,7 @@ import { useFetcher } from "@remix-run/react";
 const SaleComponent = () => {
   const [itemCount, setItemCount] = React.useState<string>("");
   const Items = useStore((state) => state.items);
+
   const fetcher = useFetcher();
   return (
     <Grid container>
@@ -24,7 +25,7 @@ const SaleComponent = () => {
           Toggle the Dropdown to select the number of items to add to sale.This
           would generate the required fields to capture sale details
         </Alert>
-        <Card elevation={4} sx={{ mt: 2 }}>
+        <Card variant="outlined" sx={{ mt: 2 }}>
           <Box display="flex" alignItems="center" sx={{ p: 1 }}>
             <TextField
               sx={{ width: "20%" }}

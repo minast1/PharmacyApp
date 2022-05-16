@@ -49,7 +49,8 @@ const AttendantIndexPage = () => {
             flexDirection: "column",
             height: 400,
           }}
-          elevation={4}
+          variant="outlined"
+          //elevation={4}
         >
           <DrugsTable />
         </Paper>
